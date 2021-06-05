@@ -1,0 +1,22 @@
+extends layouts/main-layout.pug
+
+block content
+
+    // arama kısmında arama çubuğu için tasarım:
+    .searchBarContainer
+        i.fas.fa-search
+        input#searchBox(type="text", name="searchBox", data-search=selectedTab, placeholder="Kullanıcı veya gönderiler için arama")
+
+        // arama sayfasında görülecek kısımlar:
+    .tabsContainer
+        +createTab("Gönderiler", `/search/posts`, selectedTab != "users")
+        +createTab("Kullanıcılar", `/search/users`, selectedTab == "users")
+
+    .resultsContainer
+
+    +createPostModals(userLoggedIn)
+
+block scripts
+    script(src="/js/search.js")
+
+

@@ -1,0 +1,33 @@
+extends layouts/login-layout.pug
+
+block content
+    .loginContainer
+        h1 Kayıt Olma
+        form#registerForm(method="post", onsubmit="event.preventDefault(); validateForm();")
+
+            p.errorMessage #{errorMessage}
+
+            input(type="text", name="firstName", placeholder="Adınız", value=firstName required="")
+            input(type="text", name="lastName", placeholder="Soyadınız", value=lastName required="")
+            input(type="text", name="username", placeholder="Kullanıcı Adı", value=username required="")
+            input(type="email", name="email", placeholder="E-posta", required="")
+            input#password(type="password", name="password", placeholder="Şifre", required="")
+            input#passwordConf(type="password", name="passwordConf", placeholder="Şifre Onaylama", required="")
+            input(type="submit", value="Kayıt Ol")
+
+        a(href="/login") Zaten hesabın var mı? Giriş yap.
+
+    script.
+        var passwordField = document.getElementById("password")
+        var passwordConfirmField = document.getElementById("passwordConf")
+        var form = document.getElementById("registerForm")
+
+        function validateForm() {
+            if (passwordField.value != passwordConfirmField.value) {
+                alert("Şifreler uyuşmuyor. Lütfen tekrar deneyiniz.")
+            }
+            else {
+                form.submit();
+            }
+        }
+

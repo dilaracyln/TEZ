@@ -1,0 +1,13 @@
+extends layouts/main-layout.pug
+
+block content
+    .resultsContainer
+
+        // gelen kutusu sayfasında bulunan + ikonu: yeni mesaj kısmına gitmek için:
+block headerButton
+    a(href="/messages/new")
+        i.far.fa-plus-square
+
+
+block scripts
+    script(src="/js/inboxPage.js")

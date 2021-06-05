@@ -1,0 +1,17 @@
+extends layouts/login-layout.pug
+
+block content
+    .loginContainer
+        h1 Giriş
+        form(method="post")
+
+            p.errorMessage #{errorMessage}
+
+            // -input(type="text", name="logUsername", placeholder="Kullanıcı Adı veya E-posta", value=logUsername required="")
+            // -input(type="password", name="logPassword", placeholder="Şifre", required="")
+
+            input(type="text", name="logUsername", placeholder="Kullanıcı Adı veya E-posta", value="dilaracylan" required="")
+            input(type="password", name="logPassword", placeholder="Şifre", value="123456", required="")
+
+            input(type="submit", value="Giriş Yap")
+        a(href="/register") Hesabınız yok mu? Buradan kaydolun.

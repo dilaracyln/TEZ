@@ -1,0 +1,20 @@
+extends layouts/main-layout.pug
+
+block content
+    if !profileUser
+        span.errorMessage Erişmeye çalıştığınız url'i kontrol edin.
+    else
+        script.
+            var profileUserId = "!{profileUser._id}";
+            var selectedTab = "!{selectedTab}";
+
+            // takip edilenlere tıklayınca following sayfasına git, takipçilere tıklayınca followers'a:
+        .tabsContainer
+            +createTab("Takip edilenler", `/profile/${profileUser.username}/following`, selectedTab != "followers")
+            +createTab("Takipçiler", `/profile/${profileUser.username}/followers`, selectedTab == "followers")
+
+        .resultsContainer
+block scripts
+    script(src="/js/followersAndFollowing.js")
+
+

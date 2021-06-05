@@ -1,0 +1,83 @@
+extends layouts/main-layout.pug
+
+block content
+    // kullanıcı profil sayfası için pug kodları:
+    // eğer erişilmeye çalışılan kullanıcı bulunmuyorsa
+    if !profileUser
+        span.errorMessage Erişmeye çalıştığınız url'i kontrol edin.
+    else
+        script.
+            // profil sayfası gönderi ve cevaplar kısmı için:
+            var profileUserId = "!{profileUser._id}";
+            var selectedTab = "!{selectedTab}";
+
+        // takip edilen ve takipçi sayıları için uzunluk ayarı:
+        - followersCount = profileUser.followers.length
+        - followingCount = profileUser.following.length
+
+        // profil ve kapak resmi için işlemler:
+        .profileHeaderContainer
+            .coverPhotoSection
+                .coverPhotoContainer
+                    // yüklenen kapak resmi profil sayfasında görünsün diye:
+                    if profileUser.coverPhoto
+                        img(src=profileUser.coverPhoto, alt="Kapak fotoğrafı")
+
+                    // kapak fotosunu değiştirmek istediğinde kamera simgesi görünsün diye:
+                    if profileUser._id == userLoggedIn._id
+                        button.coverPhotoButton(data-toggle="modal", data-target="#coverPhotoUploadModal")
+                            i.fas.fa-camera
+
+                .userImageContainer
+                    img(src=profileUser.profilePic, alt="Kullanıcı profil fotoğrafı")
+
+                    // profil fotosunu değiştirmek istediğinde kamera simgesi görünsün diye:
+                    if profileUser._id == userLoggedIn._id
+                        button.profilePictureButton(data-toggle="modal", data-target="#imageUploadModal")
+                            i.fas.fa-camera
+
+            //profil sayfasına mesaj butonu eklemek
+            .profileButtonsContainer
+                if profileUser._id != userLoggedIn._id
+                    a.profileButton(href=`/messages/${profileUser._id}`)
+                        i.fas.fa-envelope
+
+                    - var profileUserId = profileUser._id.toString();
+                        // eğer kullanıcı bilgisi id' sine eşitse takip ediliyor yap.
+                    - if (userLoggedIn.following && userLoggedIn.following.includes(profileUserId))
+                        // Profil sayfasındaki takip et butonu için
+                        +createFollowButton(profileUser, true)
+                    - else
+                        +createFollowButton(profileUser, false)
+            // profil sayfasında kullanıcının ismi,soyismi ve kullanıcı adı bilgilerinin görünmesi
+            .userDetailsContainer
+                span.displayName #{profileUser.firstName} #{profileUser.lastName}
+                span.username @#{profileUser.username}
+                span.description #{profileUser.description}
+
+                //profil sayfasında takip edilen ve takipçi kısmındaki sayılar için:
+                .followersContainer
+                    a(href=`/profile/${profileUser.username}/following`)
+                        span.value #{followingCount}
+                        span Takip ediliyor
+                    a(href=`/profile/${profileUser.username}/followers`)
+                        span#followersValue.value #{followersCount}
+                        span Takipçiler
+        // profil sayfasında gönderi ve cevap kısmında seçilen yere göre yönlendirme için:
+        .tabsContainer
+            +createTab("Gönderiler", `/profile/${profileUser.username}`, selectedTab != "replies")
+            +createTab("Cevaplar", `/profile/${profileUser.username}/replies`, selectedTab == "replies")
+
+
+        .pinnedPostContainer
+        .postsContainer
+
+        // yorum yapma,silme, profil resmi ve kapak resmi yüklemek için çağırılan mixin modelleri:
+        +createPostModals(userLoggedIn) // yorum+ silme
+        +createImageUploadModal()
+        +createCoverPhotoUploadModal()
+
+
+block scripts
+    script(src="/js/profile.js")
+

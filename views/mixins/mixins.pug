@@ -1,0 +1,173 @@
+// Gönderi için oluşturulan mixin modeli:
+mixin createPostForm(userLoggedIn)
+    .postFormContainer
+        .userImageContainer
+            img(src=userLoggedIn.profilePic, alt="Profil fotoğrafı")
+        .textareaContainer
+            textarea#postTextarea(placeholder="Neler oluyor?")
+            .buttonsContainer
+                button#submitPostButton(disabled="") Gönder
+
+// Yorum yapma için oluşturulan mixin modeli:
+mixin createReplyModal(userLoggedIn)
+    #replyModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='replyModalLabel', aria-hidden='true')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    h5#replyModalLabel.modal-title Yorum Yap
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                    span(aria-hidden='true') &times;
+                .modal-body
+                    #originalPostContainer
+                    .postFormContainer
+                        .userImageContainer
+                            img(src=userLoggedIn.profilePic, alt="Profil fotoğrafı")
+                        .textareaContainer
+                            textarea#replyTextarea(placeholder="Neler oluyor?")
+                .modal-footer
+                    button.btn.btn-secondary(type='button', data-dismiss='modal') Kapat
+                    button#submitReplyButton.btn.btn-primary(type='button', disabled="") Cevapla
+
+// Atılan postu silmek için oluşturulan mixin modeli:
+mixin createDeletePostModal()
+    #deletePostModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='deletePostModalLabel', aria-hidden='true')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    h5#deletePostModalLabel.modal-title Gönderi silinsin mi?
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                    span(aria-hidden='true') &times;
+                .modal-body
+                    p Bunu silemezsin.
+                .modal-footer
+                    button.btn.btn-secondary(type='button', data-dismiss='modal') Kapat
+                    button#deletePostButton.btn.btn-primary(type='button') Sil
+
+// Mixin modellerini tek bir yerden çağırmak için oluşturulan mixin modeli:
+mixin createPostModals(userLoggedIn)
+    +createReplyModal(userLoggedIn)
+    +createDeletePostModal()
+    +createPinnedPostModal()
+    +createUnpinPostModal()
+
+// Profil sayfasındaki takip et butonu için oluşturulan mixin modeli:
+mixin createFollowButton(user, isFollowing)
+    - text = isFollowing ? "Takip Ediliyor" : "Takip Et"
+    - buttonClass = isFollowing ? "followButton following" : "followButton"
+    button(class=buttonClass, data-user=user._id) #{text}
+
+// Profil sayfasında gönderiler ve cevaplar kısmı için oluşturulan mixin modeli:
+mixin createTab(name, href, isSelected)
+    - className = isSelected ? "tab active" : "tab"
+    a(href=href, class=className)
+        span #{name}
+
+// Profil sayfasında profil fotosu yğklemek için oluşturulan mixin modeli:
+mixin createImageUploadModal()
+    #imageUploadModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='imageUploadModalLabel', aria-hidden='true')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    h5#imageUploadModalLabel.modal-title Yeni bir profil fotoğrafı yükle
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                    span(aria-hidden='true') &times;
+                .modal-body
+                    // pc den profil fotosu seçebilmesi için:
+                    input#filePhoto(type="file", name="filePhoto")
+                    .imagePreviewContainer
+                        img#imagePreview
+                .modal-footer
+                    button.btn.btn-secondary(type='button', data-dismiss='modal') İptal Et
+                    button#imageUploadButton.btn.btn-primary(type='button') Kaydet
+
+// Profil sayfasında kapak fotosu yüklemek için oluşturulan mixin modeli:
+mixin createCoverPhotoUploadModal()
+    #coverPhotoUploadModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='coverPhotoModalLabel', aria-hidden='true')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    h5#coverPhotoModalLabel.modal-title Yeni bir kapak fotoğrafı yükle
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                    span(aria-hidden='true') &times;
+                .modal-body
+                    input#coverPhoto(type="file", name="filePhoto")
+
+                    .imagePreviewContainer
+                        img#coverPreview
+                .modal-footer
+                    button.btn.btn-secondary(type='button', data-dismiss='modal') İptal Et
+                    button#coverPhotoButton.btn.btn-primary(type='button') Kaydet
+
+// Postu sabitlemek için oluşturulan mixin modeli:
+mixin createPinnedPostModal()
+    #confirmPinModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='confirmPinModalLabel', aria-hidden='true')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    h5#confirmPinModalLabel.modal-title Gönderi sabitlensin mi?
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                        span(aria-hidden='true') &times;
+                    .modal-body
+                    p Bu gönderi profilinizin en üstünde görünecek. Sadece bir gönderi sabitleyebilirsiniz.
+                .modal-footer
+                    button.btn.btn-secondary(type='button', data-dismiss='modal') İptal Et
+                    button#pinPostButton.btn.btn-primary(type='button') Sabitle
+
+// Post sabitlemeyi kaldırmak için oluşturulan mixin modeli:
+mixin createUnpinPostModal()
+    #unpinModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='unpinModalLabel', aria-hidden='true')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    h5#unpinModalLabel.modal-title Sabitleme kaldırılsın mı?
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                    span(aria-hidden='true') &times;
+                .modal-body
+                    p Bu gönderinin sabitlemesi kaldırılacak.
+                .modal-footer
+                    button.btn.btn-secondary(type='button', data-dismiss='modal') İptal Et
+                    button#unpinPostButton.btn.btn-primary(type='button') Sabitlemeyi Kaldır
+
+// Grup sohbetine resim yüklemek için:
+mixin createChatImage(chatData, userLoggedIn)
+    if(!chatData)
+        return
+
+        //sohbet grubunda görünecek max foto sayısı 3 olsun.
+    - var i = 0
+    - var maxImagesToShow = 3
+    - var remainingUsers = chatData.users.length - maxImagesToShow
+    - remainingUsers-- // Kendi resmimizi göstermeyeceğimiz için 1'i kaldır
+
+    .chatImagesContainer
+        //kalan kullanıcı >0 ise kullanıcıları say +.. olarak yaz.
+        if remainingUsers > 0
+            .userCount
+                span +#{remainingUsers}
+
+                // kullanıcı sayısı 1 değilse ve id ler uyuşursa devm et
+                // kullanıcı sayısı max dan fazlaysa bırak ve her seferinde kullanıcıyı 1 arttır(i)
+        each user in chatData.users
+            if chatData.users.length != 1 && user._id == userLoggedIn._id
+                - continue
+            else if i >= maxImagesToShow
+                - break
+
+            img(src=user.profilePic, alt="User's profile picture", title=user.firstName)
+            - i++
+
+// Sohbet adı oluşturmak için:
+mixin createChatNameModal(chat)
+    #chatNameModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='chatNameModalLabel', aria-hidden='true')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    h5#chatNameModalLabel.modal-title Sohbet adını değiştirin
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                    span(aria-hidden='true') &times;
+                .modal-body
+                    input#chatNameTextbox(type="text", placeholder="Sohbet için bir isim girin", value=chat.chatName)
+                .modal-footer
+                    button.btn.btn-secondary(type='button', data-dismiss='modal') Kapat
+                    button#chatNameButton.btn.btn-primary(type='button') Kaydet
+
