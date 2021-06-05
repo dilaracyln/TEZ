@@ -1,0 +1,950 @@
+:root {
+    --blue: #1FA2F1;
+    --blueLight: #9BD1F9;
+    --blueBackground: rgba(212, 237, 255, 0.6);
+    --buttonHoverBg: #d4edff;
+    --lightGrey: rgb(230, 236, 240);
+    --spacing: 15px;
+    --greyText: rgb(101, 119, 134);
+    --greyButtonText: rgba(0,0,0,0.34);
+    --red: rgb(226,34,94);
+    --redBackground: rgba(226,34,94,0.1);
+    --green: rgb(23,191,99);
+    --greenBackground: rgba(23,191,99,0.1);
+}
+
+/*mesaj yazma ksımı için: */
+html, body {
+    height: 100%;
+    min-height: 100%;
+    background-color: #fff;
+    font-weight: 300;
+}
+
+/*mesajlar arasındaki boşluklar için: */
+ul {
+    margin: 0;
+}
+
+* {
+    outline: none !important;
+}
+
+/* kuş ikonunun renginin değişmemesi için: */
+a {
+    color: inherit;
+}
+
+/* ikonların üstünde çizgi olmaması için:  */
+a:hover {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Ana sayfa başlığının altındaki kısım için: */
+h1 {
+    font-size: 19px;
+    font-weight: 800;
+    margin: 0;
+}
+
+/* ana sayfada bulunan ikonlar için tasarım(nav,nav a) */
+nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    height: 100%;
+}
+
+nav a {
+    padding: 10px;
+    font-size: 30px;
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #212529;
+    position: relative;
+}
+
+/* kuş ikonunun rengi hep mavi kalsın:  */
+nav a.blue {
+    color: var(--blue);
+}
+
+/* imleç ikonun üstüne gidince soluk mavi görünmesi için: */
+nav a:hover {
+    background-color: var(--buttonHoverBg);
+    color: var(--blue);
+    border-radius: 50%;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/*yalnızca içinde bulunulan rota öğesinin ilk örneğine uygulamak için: */
+.wrapper > .row {
+    margin: 0;
+    height: 100%;
+}
+
+/* yorum yap, beğen ve retweetle ikonlarının renk ayarları: */
+button {
+    background-color: transparent;
+    border: none;
+    color: var(--greyButtonText);
+}
+
+/*  beğeni, retweet, yorum butonunda farenin işlevine vereceği tepkiyi belirler */
+button i,
+button span {
+    pointer-events: none;
+}
+
+/* main ve title kısmı ana sayfada başlık ve ana syafa görünümü için */
+.mainSectionContainer {
+    padding:  0;
+    border-left: 1px solid var(--lightGrey);
+    border-right: 1px solid var(--lightGrey);
+    display: flex;
+    flex-direction: column;
+}
+
+.titleContainer {
+    height: 53px;
+    padding: 0 var(--spacing);
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--lightGrey);
+    flex-shrink: 0;
+}
+
+/* Ana başlık için: */
+.titleContainer h1 {
+    flex: 1;
+}
+
+.postFormContainer {
+    display: flex;
+    padding: var(--spacing);
+    border-bottom: 10px solid rgb(230, 236, 240);
+    flex-shrink: 0;
+}
+
+/* yorum yapma kısmı için düzenlemeler: */
+.modal .postFormContainer {
+    border: none;
+    padding: var(--spacing) 0 0;
+}
+
+/* yorum yapma kısmına tıklandığında açılan sayfa için düzenlemeler: */
+.modal .post {
+    padding: 0 0 var(--spacing) 0;
+}
+
+/* profil fotosu için düzenlemeler: */
+.userImageContainer {
+    width: 50px;
+    height: 50px;
+}
+
+.userImageContainer img {
+    width: 100%;
+    border-radius: 50%;
+    background-color: white;
+}
+
+/* Gönderi atılan kutucuk için düzenlemeler: */
+.textareaContainer {
+    flex: 1;
+    padding-left: var(--spacing);
+}
+
+.textareaContainer textarea {
+    width: 100%;
+    border: none;
+    resize: none;
+    font-size: 19px;
+}
+
+/* Post atma butonu için: */
+#submitPostButton {
+    background-color: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 40px;
+    padding: 7px 15px;
+}
+
+/* buton, post yazılmadığı sürece soluk mavi kalsın: */
+#submitPostButton:disabled {
+    background-color: var(--blueLight);
+}
+
+/* atılan post için genel tasarım: */
+.post {
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing);
+    cursor: pointer;
+    border-bottom: 1px solid var(--lightGrey);
+    flex-shrink: 0;
+}
+
+/* genel post çerçevesi dışında kalan bölüm için: */
+.mainContentContainer {
+    flex: 1;
+    display: flex;
+    overflow-y: hidden;
+}
+
+/* kullanıcı bilgilerinin göründüğü kısım için: */
+.postContentContainer {
+    padding-left: var(--spacing);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/*atılan postta kullanıcı adı ve tarih için: */
+.username,
+.date {
+    color: var(--greyText)
+}
+
+/* atılan postta ad ve soyad için: */
+.displayName {
+    font-weight: bold;
+}
+
+/* yorum yap, beğen ve retweetle ikonlarının yerlerinini dizilişlerinin için:  */
+.postFooter {
+    display: flex;
+    align-items: center;
+}
+
+.postFooter .postButtonContainer {
+    flex: 1;
+    display: flex;
+}
+
+/* yorum yap, beğen ve retweetle butonlarının büyüklük ayarı: */
+.postFooter .postButtonContainer button {
+    padding: 2px 5px;
+}
+
+/* postta kullanıcı adı, tarih vb alanlarda hover özelliği engellendi.*/
+.header a:hover {
+    text-decoration: underline;
+}
+
+/* atılan postta isim soyisim ile kullanıcı adı arasındaki boşluk ayarlandı.  */
+.header a,
+.header span {
+    padding-right: 5px;
+}
+
+/* yorum yap, beğen ve retweetle butonlarının hover arka planı mavi  */
+.postButtonContainer button:hover {
+    background-color: #d4edff;
+    color: var(--blue);
+    border-radius: 50%;
+}
+
+/* beğeni butonunu aktifken kırmızı yapma */
+.postButtonContainer.red button.active {
+    color: var(--red);
+}
+
+/* beğeni butonunu pasifken soluk kırmızı yapma */
+.postButtonContainer.red button:hover {
+    color: var(--red);
+    background-color: var(--redBackground)
+}
+
+/* retweet butonunu aktifken yeşil yapma */
+.postButtonContainer.green button.active {
+    color: var(--green);
+}
+
+/* retweet butonunu pasifken soluk yeşil yapma */
+.postButtonContainer.green button:hover {
+    color: var(--green);
+    background-color: var(--greenBackground)
+}
+
+/* tarafından rtweetlendi kısmı tasarımı için: */
+.postActionContainer {
+    padding-left: 35px;
+    font-size: 13px;
+    color: var(--greyText);
+    margin-bottom: 5px;
+}
+
+/* tarafından cevaplandı yazısı ile atılan post arasındai uzaklık:  */
+.replyFlag {
+    margin-bottom: 5px;
+}
+
+/* kim tarafından yanıtlandıysa o kişinin kullanıcı adının mavi görünmesi: */
+.replyFlag a {
+    color: var(--blue);
+}
+
+/* posta tıklayınca gidilen sayfada yapılan yorumların font ayarı: */
+.post.largeFont .postBody,
+.post.largeFont .postFooter {
+    font-size: 23px;
+}
+
+/* header ile silme işlemindeki X butonunu düzenleme: */
+.postContentContainer .header {
+    display: flex;
+}
+
+.postContentContainer .header .date {
+    flex: 1;
+}
+
+/* erişilmeye çalışılan kullanıcı bulunamadığında: */
+.errorMessage {
+    padding: var(--spacing);
+}
+
+/* kapak fotoğrafı için düzenlemeler: */
+.coverPhotoSection {
+    height: 180px;
+    background-color: var(--blue);
+    position: relative;
+}
+
+/* profil sayfası kullanıcı fotosu için : */
+.profileHeaderContainer .userImageContainer {
+    width: 132px;
+    height: 132px;
+    margin-left: var(--spacing);
+    position: absolute;
+    bottom: -66px;
+    /* profil ve kapak fotosunda görünen kamera ikonu için:  */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*profil fotosu çerçevesi(yuvarlak) için: */
+.profileHeaderContainer .userImageContainer img {
+    border: 4px solid #fff;
+}
+
+/* profil sayfasındaki mesaj butonu için düzenlemeler: */
+.profileHeaderContainer .profileButtonsContainer {
+    text-align: right;
+    padding: var(--spacing);
+    min-height: 66px;
+}
+
+/* profil sayfasındaki takip etme ve mesaj butonunun çerçevesi ve rengi için: */
+.profileButton,
+.followButton {
+    border: 1px solid var(--blue);
+    color: var(--blue);
+    font-weight: bold;
+    padding: 5px 15px;
+    border-radius: 60px;
+    display: inline-block;
+    margin-left: var(--spacing);
+}
+
+/* profil sayfasındaki takip etme ve mesaj butonunun üstüne fare imleci gelince: */
+.profileButton:hover,
+.followButton:hover {
+    background-color: var(--blueBackground);
+}
+
+/*profil sayfasında takip edilmiyorsa arka plan beyaz ediliyorsa mavi yapmak için: */
+.followButton.following {
+    background-color: var(--blue);
+    color: #fff;
+}
+
+/* profil sayfasında takip edilenler ve takipçilerin görünümü için:*/
+.profileHeaderContainer .userDetailsContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 0 var(--spacing);
+}
+
+/* profil sayfasında takip edilenler ve takipçilerin sayılarının görünümü için:*/
+.followersContainer .value {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+/* profil sayfasında takip edilenler ve takipçilerin rengi için:*/
+.followersContainer span:not(.value) {
+    color: var(--greyText);
+}
+
+/* profil sayfasında takip edilenler ve takipçiler yazılarının arasındaki boşluk için:*/
+.followersContainer a {
+    margin-right: 15px;
+}
+
+/*takipçi ve takip edilenlere fareyle gelince siyah alt çizgi oluşması için: */
+.followersContainer a:hover {
+    border-bottom: 1px solid #000;
+}
+
+/* profil sayfasında gönderi ve cevaplar kısmı rengi ve konumu için: */
+.tabsContainer {
+    display: flex;
+    border-bottom: 1px solid var(--lightGrey);
+    flex-shrink: 0;
+}
+
+/* profil sayfasında gönderi ve cevaplar yazılarının görünümü ve uzaklığı için: */
+.tab {
+    flex: 1;
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--greyText);
+    font-weight: bold;
+}
+
+/*profil sayfasında gönderi ve cevaplar kısmında o an aktif olan kısım için: */
+.tab.active {
+    color: var(--blue);
+    border-bottom: 2px solid var(--blue);
+}
+
+/*profil sayfasında gönderi ve cevaplar kısmında imleç üstüne gelince görünecek renk için: */
+.tab:hover {
+    color: var(--blue);
+    background-color: var(--blueBackground);
+}
+
+/*takipçi veya takip edilenlerde sonuç bulunmaması durumunda: */
+.noResults {
+    padding: var(--spacing);
+}
+
+/*takipçi veya takip edilenler sayfası için: */
+.resultsContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+/*takipçi veya takip edilenler sayfasında kullanıcılar arasındaki hizalama için: */
+.resultsContainer .user {
+    padding: var(--spacing);
+    display: flex;
+    border-bottom: 1px solid var(--lightGrey);
+}
+
+/*/*takipçi veya takip edilenler sayfasında profil fotosu ve yazı arasındaki mesafe için: */
+.user .userDetailsContainer {
+    flex: 1;
+    padding: 0 var(--spacing)
+}
+
+/* profil ve kapak fotosunu değiştirmek için çıkan kamera simgesi için: */
+.profilePictureButton,
+.coverPhotoButton {
+    position: absolute;
+    font-size: 50px;
+    color: rgba(0,0,0,0.6);
+    display: none;
+}
+
+/* profil ve kapak fotosunda imleç gelince kamera ikonu görünsün diye: */
+.userImageContainer:hover .profilePictureButton,
+.coverPhotoSection:hover .coverPhotoButton {
+    display: block;
+}
+
+/* kapak fotosunda kamera simgesinin konumu için:  */
+.coverPhotoContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+/*kapak fotosunun profil sayfasındaki boyutları için: */
+.coverPhotoContainer img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* profil resmi olarak yüklenecek resmin kırpılmadan önce görünen hali için: */
+#imagePreview,
+#coverPreview {
+    width: 100%;
+    display: block;
+
+    /* This rule is very important, please don't ignore this */
+    max-width: 100%;
+}
+
+/* Sabitlenen gönderide bulunan sabitleme butonunun rengini değiştirmek için: */
+.pinButton.active {
+    color: var(--blue);
+}
+
+/* Sabitlenen postta "sabitlenmiş gönderi" yazısı için: */
+.pinnedPostText {
+    font-size: 12px;
+    color: var(--greyText);
+}
+
+/*sabitlenmiş postun diğer postlarla arasına çizgi çekme: */
+.pinnedPostContainer {
+    border-bottom: 10px solid rgb(230,236,240);
+}
+
+/*arama sayfasındaki arama çubuğunun sayfaya uyumu için:  */
+.searchBarContainer {
+    position: relative;
+    color: var(--greyText);
+    padding: 10px var(--spacing);
+}
+
+/*arama sayfasındaki arama çubuğunun içindeki ikon için: */
+.searchBarContainer i {
+    position: absolute;
+    top: 20px;
+    left: 28px;
+}
+
+/*arama sayfasındaki arama çubuğu için: */
+.searchBarContainer #searchBox {
+    height: 36px;
+    width: 100%;
+    padding: 5px 15px 5px 40px;
+    border-radius: 50px;
+    background-color: var(--lightGrey);
+    border: none;
+    color: var(--greyText);
+}
+
+/* yeni mesaj yazma kısmının tümü için gerekli düzenlemeler:  */
+.chatPageContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    flex: 1;
+    flex-basis: 0;
+}
+
+/*yeni mesaj ve kime: kısmı için: */
+.chatTitleBar {
+    border-bottom: 1px solid var(--lightGrey);
+    display: flex;
+    align-items: center;
+    min-height: 60px;
+    padding: 10px;
+}
+
+.chatTitleBar label {
+    margin: 0 10px 0 0;
+}
+
+/*yeni mesaj kısmında kullanıcı arama çubuğu için: */
+#userSearchTextbox {
+    border: none;
+    flex: 1;
+    font-weight: 200;
+    min-width: 350px;
+}
+
+/*yeni mesaj kısmında sohbet oluşturun butonu için: */
+#createChatButton {
+    border: none;
+    background-color: var(--blue);
+    color: #fff;
+    padding: 7px 20px;
+    margin: 10px auto;
+    border-radius: 40px;
+}
+
+/*kullanıcı seçilmediği sürece sohbet oluştur butonunun görünümü için : */
+#createChatButton:disabled {
+    background-color: var(--lightGrey);
+    color: var(--greyText);
+}
+
+/*yeni mesaj kısmında seçili kullanıcı isminin arama cubugundaki görüntüsü: */
+.selectedUser {
+    font-weight: 300;
+    background-color: #CBE5FE;
+    color: #0084ff;
+    padding: 5px;
+    border-radius: 3px;
+    margin: 5px 5px 0 0;
+    display: inline-block;
+}
+
+/*  sohbet listesi kısmında atılan mesajın boyutları ve rengi */
+.resultListItem {
+    padding: 7px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--lightGrey);
+}
+
+/*sohbet listesi kısmında fare üstüne gelince sohbetin gri görünmesi: */
+.resultListItem:hover {
+    background-color: #F2F2F2;
+}
+
+/* sohbet adının üstte içeriğin altta görünmesini sağlamak:  */
+.resultsDetailsContainer {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* sohbet adının daha koyu yazılması için:  */
+.resultsDetailsContainer .heading {
+    font-weight: 500;
+}
+
+/* son mesajın boyutu ve gri olması için: */
+.resultsDetailsContainer .subText {
+    color: var(--greyText);
+    font-size: 14px;
+}
+
+/* sohbet edilen kullanıcıların resimlerinin boyutu için: */
+.resultListItem img {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+}
+
+/* sohbet edilen kullanıcıların resimlerinin konumu için: */
+.resultsImageContainer {
+    height: 40px;
+    width: 40px;
+    position: relative;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+
+/* sohbet edilen kullanıcıların resimlerinin konumu için: */
+.groupChatImage img {
+    height: 65%;
+    width: 65%;
+    position: absolute;
+    bottom: 0;
+    margin: 0;
+    border: 2px solid #fff;
+}
+
+/* sohbette birden fazla kullanıcı varsa resimlerini yerleştirmek için: */
+.groupChatImage img:first-of-type {
+    top: 0;
+    right: 0;
+}
+
+/*çok fazla kullanıcıyla sohbet oluşturduğunda isimler sığmadığı zaman ... koymak için: */
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/*Sohbet başlık çubuğunu şekillendirmek için: */
+.chatTitleBarContainer {
+    border-bottom: 1px solid var(--lightGrey);
+    display: flex;
+    align-items: center;
+    padding: var(--spacing);
+}
+
+/*sohbet adı için: */
+#chatName {
+    height: 60%;
+    width: 100%;
+    border: 1px solid transparent;
+    padding: 0 5px;
+}
+
+/*sohbet adının üstüne imleç ile gelince çerçeve oluşsun diye: */
+#chatName:hover {
+    border: 1px solid var(--lightGrey);
+    cursor: text;
+}
+
+/*Mesaj metin kutusunu şekillendirme: */
+.chatContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: hidden;
+}
+
+/*mesaj yazılan yerde text kısmı ile ikon arasında: */
+.chatContainer .footer {
+    display: flex;
+    padding: var(--spacing);
+    flex-shrink: 0;
+}
+
+/* mesaj yazılan yerdeki metin kısmı için: */
+.chatContainer .footer textarea {
+    flex: 1;
+    resize: none;
+    background-color: rgba(0,0,0,0.05);
+    border-radius: 18px;
+    border: none;
+    padding: 8px 12px;
+    height: 38px;
+}
+
+/*mesaj yazılan yerin yanındaki gönder ikonu için: */
+.chatContainer .footer button {
+    background-color: transparent;
+    color: var(--blue);
+    font-size: 24px;
+}
+
+/* gönderilen mesajlar için:  */
+.chatMessages {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: var(--spacing);
+}
+
+/*sohbet grubundaki kişilerin resimlerinin konumları için:  */
+.chatImagesContainer {
+    display: flex;
+    flex-direction: row-reverse;
+    height: 100%;
+    margin-right: 10px;
+}
+
+/*sohbet grubundaki kişilerin resimleri için:  */
+.chatImagesContainer img {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+}
+
+/*sohbet grubunda 3 den fazla kullanıcıdan sonra görünen + kısmı için: */
+.chatImagesContainer .userCount {
+    height: 40px;
+    width: 40px;
+    background-color: #f1f1f1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    border: 2px solid #fff;
+}
+
+/*sondaki + kısmı hariç tüm kullanıcı resim çerçevesine uygula.*/
+.chatImagesContainer img:not(:last-child),
+.chatImagesContainer .userCount {
+    margin-left: -10px;
+}
+
+/* yeni sohbet adı girilen kısım:  */
+#chatNameTextbox {
+    width: 100%;
+}
+
+/*yazılan mesajın konumu için: */
+.chatMessages .message {
+    padding-bottom: 2px;
+    list-style: none;
+    display: flex;
+    align-items: flex-end;
+    flex-shrink: 0;
+}
+
+/*yazılan mesajın ve yazıyor.. gifinin rengi ve büyüklüğü: */
+.typingDots img,
+.chatMessages .message .messageBody {
+    background-color: #f1f0f0;
+    padding: 6px 12px;
+    border-radius: 18px;
+    font-size: 14px;
+}
+
+/*yazıyor gifinin büyüklüğü: */
+.typingDots img {
+    height: 35px;
+}
+
+/*yazıyor gifinin konumu: */
+.typingDots {
+    padding: var(--spacing);
+    padding-bottom: 0;
+    display: none;
+}
+
+/* atılan mesajın üst barda sohbet adıyla arasındaki mesafe için: */
+.chatMessages .message .messageContainer {
+    display: flex;
+    flex-direction: column;
+    max-width: 55%;
+}
+
+/*kullanıcının kendinin attığı mesajların konumu için: */
+.chatMessages .message.mine .messageContainer {
+    align-items: flex-end;
+}
+
+/* kullanıcıya gelen mesajların konumu için: */
+.chatMessages .message.theirs .messageContainer {
+    align-items: flex-start;
+}
+
+.chatMessages .message.mine {
+    flex-direction: row-reverse;
+}
+
+/*kullanıcının kendi attığı mesajların rengi için*/
+.chatMessages .message.mine .messageBody {
+    background-color: var(--blue);
+    color: #fff;
+}
+
+/* Mesajlarınızın kenarlık yarıçapını ayarlama: */
+.chatMessages .message.mine.first .messageBody {
+    border-bottom-right-radius: 2px;
+}
+
+.chatMessages .message.mine:not(.first):not(.last) .messageBody {
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.chatMessages .message.mine.last .messageBody {
+    border-bottom-right-radius: 18px;
+}
+
+.chatMessages .message.mine.last:not(.first) .messageBody {
+    border-top-right-radius: 2px;
+}
+
+.chatMessages .message.theirs.first .messageBody {
+    border-bottom-left-radius: 2px;
+}
+
+.chatMessages .message.theirs:not(.first):not(.last) .messageBody {
+    border-bottom-left-radius: 2px;
+    border-top-left-radius: 2px;
+}
+
+.chatMessages .message.theirs.last .messageBody {
+    border-bottom-left-radius: 18px;
+}
+
+.chatMessages .message.theirs.last:not(.first) .messageBody {
+    border-top-left-radius: 2px;
+} /*buraya kadar devam*/
+
+/*mesaj gönderince üstünde kim tarafından gönderildiği yazısının rengi için: */
+.senderName {
+    color: rgba(0,0,0,0.4);
+}
+
+/*gelen mesajlarda görünecek kullanıcı profil fotosunun boyutu için: */
+.chatMessages .imageContainer {
+    height: 24px;
+    width: 24px;
+    margin-right: 7px;
+}
+
+/*geklen mesajlarda görünecek kullanıcı profil fotosunu tam yuvarlak yapmak için: */
+.chatMessages img {
+    height: 100%;
+    border-radius: 50%;
+    vertical-align: bottom;
+}
+
+/*nurhanın attığı mesajdan sonra edanın attığı mesajla aradaki mesafe:  */
+.chatMessages .message.last {
+    margin-bottom: 7px;
+}
+
+/*mesajlar yüklenirken gelen yükleniyo simgesinin konumu için: */
+.loadingSpinnerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+/*yükleniyor simgesinin büyüklüğü için: */
+.loadingSpinnerContainer img {
+    width: 50%;
+    max-width: 75px;
+}
+
+/*bildirim henüz açılmadıysa arkaplanı mavi olsun*/
+.resultListItem.active {
+    background-color: var(--blueBackground);
+}
+
+/*bildirimlerde bu öğe tıklama olaylarını kaydetmeyecek: */
+.resultListItem.notification * {
+    pointer-events: none;
+}
+
+/*bildirim ve mesaj sayısı için: */
+#notificationBadge,
+#messagesBadge {
+    background-color: var(--red);
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: white;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+}
+
+/*mesaj ve bildirimdeki css ayarları o bildirim aktifken görünsün: */
+#notificationBadge.active,
+#messagesBadge.active {
+    visibility: visible;
+}
+
+/*Açılır bildirim listesini şekillendirme:*/
+#notificationList {
+    position: fixed;
+    top: 5px;
+    right: 5px;
+    width: 350px;
+    background-color: white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    -webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+/*Açılır bildirim listesini aktifken:*/
+#notificationList .active {
+    background-color: white;
+}
